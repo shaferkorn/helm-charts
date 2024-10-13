@@ -1,0 +1,165 @@
+# -- global configuration
+global:
+  imageRegistry: docker.io
+  # imagePullSecrets:
+  #   - name: "myRegistryKeySecretName"
+
+# -- config of the frontend
+frontend:
+  enabled: true
+  annotations: {}
+  replicaCount: 1
+  image:
+    repository: dependencytrack/frontend
+    tag: 4.11.7
+    pullPolicy: IfNotPresent
+  env:
+    - name: API_BASE_URL
+      value: "http://localhost:8585"
+    # See https://docs.dependencytrack.org/getting-started/configuration/ for frontend ENV variables.
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsUser: 101
+  service:
+    type: ClusterIP
+    port: 80
+    annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  emptyDir:
+    sizeLimit: 8Gi
+  resources:
+  # https://docs.dependencytrack.org/getting-started/deploy-docker/
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 1
+      memory: 512Mi
+  nameOverride: ""
+  fullnameOverride: ""
+  initContainers: []
+  serviceAccount:
+    create: true
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: frontend-serviceaccount
+    annotations: {}
+  livenessProbe:
+    enabled: true
+    path: "/"
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 2
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    path: "/"
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 2
+    successThreshold: 1
+    failureThreshold: 3
+
+# -- config of the apiserver
+apiserver:
+  enabled: true
+  annotations: {}
+  # Max: 1 - DT is not designed for HA
+  # replicaCount: 1
+  image:
+    repository: dependencytrack/apiserver
+    tag: 4.11.7
+    pullPolicy: IfNotPresent
+  env: []
+  persistentVolume:
+    accessModes:
+    - ReadWriteOnce
+    enabled: true
+    size: 8Gi
+    annotations: {}
+    storageClass: ""
+  podSecurityContext:
+    fsGroup: 1000
+  securityContext:
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+  service:
+    type: ClusterIP
+    port: 80
+    annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  emptyDir:
+    sizeLimit: 8Gi
+  resources:
+  # https://docs.dependencytrack.org/getting-started/deploy-docker/
+    requests:
+      cpu: 2
+      memory: 4608Mi
+      # cpu: 1
+      # memory: 1Gi
+    limits:
+      cpu: 4
+      memory: 16Gi
+  nameOverride: ""
+  fullnameOverride: ""
+  initContainers: []
+  serviceAccount:
+    create: true
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: apiserver-serviceaccount
+    annotations: {}
+  # See https://docs.dependencytrack.org/getting-started/configuration/ for backend configuration options.
+  livenessProbe:
+    enabled: true
+    path: "/api/version"
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 2
+    successThreshold: 1
+    failureThreshold: 3
+  readinessProbe:
+    enabled: true
+    path: "/"
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 2
+    successThreshold: 1
+    failureThreshold: 3
+
+# -- configuration of ingress
+ingress:
+  enabled: false
+  tls:
+    enabled: false
+    secretName: ""
+  annotations: {}
+  host: ""
+  # ingressClassName: nginx
+
+# -- configuration of postgres
+postgresql:
+  enabled: true
+  auth:
+    ## @param auth.username Name for a custom user to create
+    ##
+    username: "deptrack"
+    ## @param auth.password Password for the custom user to create. Ignored if `auth.existingSecret` is provided
+    ##
+    password: "deptrack"
+    ## @param auth.database Name for a custom database to create
+    ##
+    database: "deptrack"
+
+# secrets:
+#   postgresql:
+#     adminPassword: adminpassword
+#     userPassword: userpassword
+#     replicationPassword: 
