@@ -41,21 +41,21 @@ spec:
           value: "false"
         - name: ALPINE_DATA_DIRECTORY
           value: "/data"
-        {{- if .Values.apiserver.oidc.enabled }}
+        {{- if .Values.oidc.enabled }}
         - name: ALPINE_OIDC_ENABLED
-          value: {{.Values.apiserver.oidc.enabled}}
+          value: {{.Values.oidc.enabled}}
         - name: ALPINE_OIDC_CLIENT_ID
-          value: {{.Values.apiserver.oidc.clientId}}
+          value: {{.Values.oidc.clientId}}
         - name: ALPINE_OIDC_ISSUER
-          value: {{.Values.apiserver.oidc.issuer}}
+          value: {{.Values.oidc.issuer}}
         - name: ALPINE_OIDC_USERNAME_CLAIM
-          value: {{.Values.apiserver.oidc.usernameClaim}}
+          value: {{.Values.oidc.usernameClaim}}
         - name: ALPINE_OIDC_TEAMS_CLAIM
-          value: {{.Values.apiserver.oidc.teamsClaim}}
+          value: {{.Values.oidc.teamsClaim}}
         - name: ALPINE_OIDC_USER_PROVISIONING
-          value: {{.Values.apiserver.oidc.userProvisioning}}
+          value: {{.Values.oidc.userProvisioning}}
         - name: ALPINE_OIDC_TEAM_SYNCHRONIZATION
-          value: {{.Values.apiserver.oidc.teamSync}}
+          value: {{.Values.oidc.teamSync}}
         {{- end }}
         {{- if .Values.postgresql.enabled }}
         - name: ALPINE_DATABASE_MODE

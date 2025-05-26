@@ -29,8 +29,22 @@ spec:
         {{- end }}
         image: {{ include "frontend.image" . }}
         imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
-        {{- with .Values.frontend.env }}
-        env: {{- toYaml . | nindent 8 }}
+        env:  
+        {{- if .Values.ingress.enabled }}
+          - name: API_BASE_URL
+            value: {{.Values.ingress.host}}
+        {{- end }}
+        {{ -if .Values.oidc.enabled }}
+          - name: OIDC_ISSUER
+            value: {{.Values.oidc.issuer}}
+          - name: OIDC_CLIENT_ID
+            value: {{.Values.oidc.clientId}}
+          - name: OIDC_SCOPE
+            value: {{.Values.oidc.scope}}
+          - name: OIDC_FLOW
+            value: {{.Values.oidc.flow}}
+          - name: OIDC_LOGIN_BUTTON_TEXT
+            value: {{.Values.oidc.buttonText}}
         {{- end }}
         ports:
         - name: http

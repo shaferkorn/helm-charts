@@ -4,6 +4,8 @@ global:
   # imagePullSecrets:
   #   - name: "myRegistryKeySecretName"
 
+
+
 # -- config of the frontend
 frontend:
   enabled: true
@@ -63,16 +65,20 @@ frontend:
     successThreshold: 1
     failureThreshold: 3
 
+oidc:
+  enabled: false
+  clientId: ""
+  issuer: ""
+  usernameClaim: ""
+  teamsClaim: ""
+  userProvisioning: true
+  teamSync: true.
+  scope: ""
+  flow: ""
+  buttonText: "OIDC login"
+
 # -- config of the apiserver
 apiserver:
-  oidc:
-    enabled: false
-    clientId: ""
-    issuer: ""
-    usernameClaim: ""
-    teamsClaim: ""
-    userProvisioning: true
-    teamSync: true
   enabled: true
   annotations: {}
   # Max: 1 - DT is not designed for HA
