@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   dependency-track:
   - apiVersion: v2
-    appVersion: 4.11.7
+    appVersion: 4.13.2
     created: "2024-10-13T18:59:05.323904863+02:00"
     dependencies:
     - condition: postgresql.enabled
@@ -20,6 +20,6 @@ entries:
     name: dependency-track
     type: application
     urls:
-    - https://shaferkorn.github.io/helm-charts/dependency-track-0.1.1.tgz
-    version: 0.1.1
+    - https://shaferkorn.github.io/helm-charts/dependency-track-4.13.2.tgz
+    version: 4.13.2
 generated: "2024-10-13T18:59:05.3118289+02:00"
