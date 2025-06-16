@@ -66,13 +66,13 @@ frontend:
     failureThreshold: 3
 
 oidc:
-  enabled: false
+  enabled: "false"
   clientId: ""
   issuer: ""
   usernameClaim: ""
   teamsClaim: ""
-  userProvisioning: true
-  teamSync: true
+  userProvisioning: "true"
+  teamSync: "true"
   scope: ""
   flow: ""
   buttonText: "OIDC login"
