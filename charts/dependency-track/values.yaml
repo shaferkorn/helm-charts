@@ -72,7 +72,7 @@ oidc:
   usernameClaim: ""
   teamsClaim: ""
   userProvisioning: true
-  teamSync: true.
+  teamSync: true
   scope: ""
   flow: ""
   buttonText: "OIDC login"
